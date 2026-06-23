@@ -63,13 +63,13 @@ backend:
       cpu: "200m"
     limits:
       memory: "256Mi"
-      cpu: "200m"
+      cpu: "500m"
   containerPort: 8080
   livenessProbe:
     httpGet:
       path: /actuator/health
       port: 8080
-    initialDelaySeconds: 90
+    initialDelaySeconds: 180
     periodSeconds: 10
   vpa:
     updatePolicy:
