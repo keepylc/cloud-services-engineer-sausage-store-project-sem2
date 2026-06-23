@@ -12,7 +12,7 @@ env:
   NEXUS_HELM_REPO_PASSWORD: ${{ secrets.NEXUS_HELM_REPO_PASSWORD }}
   SAUSAGE_STORE_NAMESPACE: ${{ secrets.NAMESPACE }}
   KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
-  CHART_VERSION: "0.1.1" 
+  CHART_VERSION: "0.1.0" 
 
 jobs:
   # Сборка и пуш образов в докерхаб:
