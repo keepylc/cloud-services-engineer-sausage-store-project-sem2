@@ -1,21 +1,14 @@
-# build
-FROM node:16-alpine AS builder
+FROM node:16-alpine AS build
 
-WORKDIR /app
-
+WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
-
-RUN npm install
-
+RUN npm ci
 COPY . .
+RUN npm run build
 
-RUN npm run build -- --prod
 
-# release
-FROM nginx:stable-alpine
+FROM nginx:alpine
 
-WORKDIR /opt/html
-COPY --from=builder /app/dist/frontend ./
-RUN chown -R 101:101 /opt/html
-
-ENTRYPOINT ["sh", "-c", "cp -a /opt/html/. /mnt/ && exit 0"]
+COPY --from=build /usr/src/app/dist/frontend /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
