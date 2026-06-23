@@ -9,10 +9,11 @@ WORKDIR /usr/src/app
 COPY ./src ./src
 COPY *.xml ./
 
+ENV VERSION=${VERSION}
 RUN mvn package -Dversion.application=${VERSION}
 
 # release
-FROM amazoncorretto:17-alpine
+FROM eclipse-temurin:17-jre-alpine
 ARG VERSION=${VERSION}
 WORKDIR /app
 # создаём пользователя jaruser
