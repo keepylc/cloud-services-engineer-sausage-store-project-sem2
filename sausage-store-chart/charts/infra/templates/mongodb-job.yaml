@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: mongodb-init-reports
+  namespace: {{ .Release.Namespace }}
   annotations:
     helm.sh/hook: post-install,post-upgrade
     helm.sh/hook-delete-policy: before-hook-creation
@@ -12,7 +13,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: mongo-client
-          image: mongo:7.0
+          image: {{ .Values.mongodb.image }}
           resources:
             requests:
               cpu: "100m"

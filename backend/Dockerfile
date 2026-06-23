@@ -10,7 +10,7 @@ COPY ./src ./src
 COPY *.xml ./
 
 ENV VERSION=${VERSION}
-RUN mvn package -Dversion.application=${VERSION}
+RUN mvn package -DskipTests
 
 # release
 FROM eclipse-temurin:17-jre-alpine

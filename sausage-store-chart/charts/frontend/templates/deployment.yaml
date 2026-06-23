@@ -62,4 +62,4 @@ spec:
       protocol: TCP
       targetPort: {{ .Values.service.port }}
   selector:
-    app: sausage-store-frontend
+    app: {{ .Release.Name }}-{{ .Chart.Name }}

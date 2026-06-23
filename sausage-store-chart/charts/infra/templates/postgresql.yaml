@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: postgresql-secret
+  namespace: {{ .Release.Namespace }}
 type: Opaque
 stringData:
   POSTGRES_USER: {{ .Values.postgresql.env.POSTGRES_USER }}
@@ -12,6 +13,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: postgresql-conf
+  namespace: {{ .Release.Namespace }}
 data:
   POSTGRES_DB: {{ .Values.postgresql.env.POSTGRES_DB }}
 ---
@@ -19,6 +21,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: postgresql
+  namespace: {{ .Release.Namespace }}
 spec:
   serviceName: postgresql
   replicas: 1
@@ -45,12 +48,7 @@ spec:
             - name: postgresql-data
               mountPath: /var/lib/postgresql/data
           resources:
-            requests:
-              memory: "256Mi"
-              cpu: "200m"
-            limits:
-              memory: "512Mi"
-              cpu: "1"
+{{ toYaml .Values.postgresql.resources | indent 12 }}
   volumeClaimTemplates:
     - metadata:
         name: postgresql-data
@@ -64,6 +62,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: postgresql
+  namespace: {{ .Release.Namespace }}
   labels:
     app: postgresql
 spec:
