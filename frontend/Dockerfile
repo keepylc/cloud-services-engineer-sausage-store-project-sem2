@@ -4,10 +4,9 @@ WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
-RUN npm run build
+RUN npm run build -- --prod
 
-
-FROM nginx:alpine
+FROM nginx:stable-alpine
 
 COPY --from=build /usr/src/app/dist/frontend /usr/share/nginx/html
 EXPOSE 80
